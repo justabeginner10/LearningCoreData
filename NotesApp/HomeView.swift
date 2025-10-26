@@ -42,8 +42,10 @@ struct HomeView: View {
                 }
             }
             .sheet(isPresented: $presentAddNotesView) {
-                Text("Add Here")
-                    .presentationDetents([.height(300)])
+                AddNotesView(notesText: $enteredNotes, onAddTap: {
+                    addNotes()
+                })
+                .presentationDetents([.height(400)])
             }
         }
     }
@@ -69,10 +71,11 @@ struct HomeView: View {
 
             do {
                 try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            } catch(let error) {
+                print(error.localizedDescription)
             }
+            
+            enteredNotes = ""
         }
     }
 }
